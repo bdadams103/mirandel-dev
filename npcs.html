@@ -34,16 +34,17 @@ const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&
 // ---- EDIT HERE: NPCs -----------------------------------------------------
 // Add one line per NPC: [name, role, place, one line about them].
 // Keep it to what the party actually knows. Leave a field blank ('') if unknown.
+// New NPCs go at the end of the list; the page sorts them alphabetically.
 const NPCS=[
-["Midius","White-haired bard","The Golden Stag, Amox","Met the party at the Golden Stag. Knows all their names."],
 ["Caedes","God of murder","Amox","Revealed himself at the golden stag."],
-["Lirin","Elf","Amox","An elf in town who can provide a writ of passage to Everlight."],
-["Orrin","","","Gave Silica the ticket that brought her to Amox."],
 ["Hush","Operative of the Scarlet Brotherhood","","A codenamed operative of the Scarlet Brotherhood."],
+["Lirin","Elf","Amox","An elf in town who can provide a writ of passage to Everlight."],
+["Midius","White-haired bard","The Golden Stag, Amox","Met the party at the Golden Stag. Knows all their names."],
+["Orrin","","","Gave Silica the ticket that brought her to Amox."],
 ["Tamsin","Dock tavern keeper","The Mermaid's Tail, Amox","Sells gossip at the dock tavern."]
 ];
 function render(){const q=$('q').value.toLowerCase();
-const list=NPCS.filter(n=>!q||n.join(' ').toLowerCase().includes(q));
+const list=NPCS.filter(n=>!q||n.join(' ').toLowerCase().includes(q)).sort((a,b)=>a[0].localeCompare(b[0]));
 $('grid').innerHTML=list.map(n=>`<div class=card><h2>${esc(n[0])}</h2><div class=who>${esc([n[1],n[2]].filter(Boolean).join(' · '))}</div><p>${esc(n[3])}</p></div>`).join('');
 $('none').style.display=list.length?'none':'block'}
 $('q').oninput=render;render();

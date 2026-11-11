@@ -9,6 +9,7 @@
 | `markets.html` | Markets: shops by city, price finder, party ledger. |
 | `npcs.html` | NPC database. |
 | `recaps.html` | Session recaps, newest first. |
+| `about-dm.html` | About the DM. Linked only from the hub footer, not the top bar. |
 | `assets/bg-forest.jpg` | Blurred forest backdrop for the home hub. |
 
 ## Editing
