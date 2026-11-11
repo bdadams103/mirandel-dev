@@ -47,7 +47,10 @@ const B=[...mkI('food',[['Ration (10 days)',500],['Bread (10 loaves)',20],['Chee
 ['Weapon +3 (very rare)',4000000,4,'DMG'],['Armor +2 (very rare)',4000000,4,'DMG'],['Armor +3 (legendary)',20000000,4,'DMG'],['Vorpal Sword (legendary)',20000000,4,'DMG']])];
 // ---- EDIT HERE: cities and shops -----------------------------------
 // To add a city: copy the Amox block below, change the name, and fill in
-// its shops. Each city has its own price modifier:
+// its shops. The Towns entry is the default-goods list every town shares;
+// keep its shops generic (general store, smithy, inn). Each city has its
+// own price modifier:
+//   maxRarity: rarest item tier sold here without a 50% markup
 //   maxRarity: rarest item tier sold here without a 50% markup
 //     (1 common, 2 uncommon, 3 rare, 4 very rare).
 //   flags: price tweaks by category. f food x0.8, p food/gear x0.9,
@@ -80,7 +83,13 @@ const CITIES=[
 ['The Golden Stag','Foreign Quarter','Expensive inn for envoys',['food','lodging'],'wine|meal|comfort|wealthy|aristo|stabl',''],
 ['Sterling & Vale Imports','Foreign Quarter','Silks, spices, glassware',['gear'],'silk|spyglass|perfume|clothes, fine|ink|gem','cloak|boots of elven|brooch|bag of'],
 ['Winters & Vale Jewelers',"Patriar's Hill",'Jewelers to the Hill',['gear'],'gem|holy symbol|component','ring of|amulet|brooch|pearl|bracers'],
-['The Velvet Gavel',"Patriar's Hill",'Private members club',['food','lodging'],'wine|meal|wealthy|aristo','']]}]; // end of shops, end of the Amox city, end of CITIES
+['The Velvet Gavel',"Patriar's Hill",'Private members club',['food','lodging'],'wine|meal|wealthy|aristo','']]},
+// Towns: the default-goods list every town shares. No price tweaks
+// (flags:''), and nothing rarer than uncommon sells at base price.
+{name:'Towns',maxRarity:2,flags:'',shops:[
+['General Store','Town Square','Everyday goods for the road',['food','gear','potion'],'ration|bread|cheese|meat|ale|wine|meal|waterskin|bedroll|backpack|rope|torch|tinder|mess|blanket|clothes, common|clothes, traveler|lantern|oil|potion of healing|antitoxin',''],
+['Town Smithy','Town Square','Basic arms and armor',['weapon','armor'],'club|dagger|quarterstaff|spear|handaxe|mace|sling|shortsword|longsword|shield|padded|leather|chain shirt|arrows|bolts',''],
+['Town Inn','Town Square','A bed and a hot meal',['food','lodging'],'ale|meal|wine|poor|modest|stabl','']]}]; // end of shops, end of the Towns city, end of CITIES
 const PL=[['Darya','#b5523b'],['Sabine','#3b7bb5'],['Valerius','#8a4fb0'],['Silica','#3f8a5c']];
 const K2='amoxPlayerMarket1'; // kept so existing saved purchases still load
 let CITY=CITIES[0]; // the city whose shops and prices are showing
