@@ -62,6 +62,17 @@ const B=[...mkI('food',[['Ration (10 days)',500],['Bread (10 loaves)',20],['Chee
 // Shops: [name, district, description, [categories], items filter,
 //   magic filter]. The filters are case-insensitive matches on item names.
 // Keep shop names unique across cities: DM markups are keyed by shop name.
+// ---- DM PRICING: there is no DM panel in the page. To change prices, use
+// the Save / load box at the top of the page: Export, edit the JSON, Import.
+//   mk: {"Shop name": percent} — a markup on one shop (names must match above).
+//   ev: [{on:true, t:["Amox"], c:["food"], p:-10}] — an event: percent off/on,
+//       for the listed cities (t) and categories (c). Set on:false to pause it.
+//   brew: {"Shop name": [{n:"Name", p: price in gp, d: "note"}]} — a custom
+//       special sold at one shop only.
+//   cu: [["Name", "gear", price in cp, rarity, "Source"]] — a custom item, sold
+//       wherever its name matches a shop's filter, like any other item.
+//   inf: percent — inflation applied to everything.
+// Purchases already made keep the price they were bought at.
 const CITIES=[
 {name:'Amox',maxRarity:4,flags:'pb',shops:[['Torin & Sons Shipwrights','Shipyards','Dwarven yard building hulls and boats',['gear'],'boat|ship',''],
 ['Sprocket & Zook Runepowder Works','Shipyards','Gnome airship engines and lamps',['gear'],'lantern|oil|tinder|torch|lock','wand of pyro|orb of|driftglobe|immovable'],

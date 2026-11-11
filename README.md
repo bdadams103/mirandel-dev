@@ -16,7 +16,7 @@ Each map page has a settings block at the top of its `<script>`: `MAP_WIDTH_MILE
 
 The home hub (`index.html`) has no script: edit the sections marked `<!-- EDIT ... -->` right in the HTML, after each session.
 
-Markets (`markets.html`) has its editable lists at the top of its `<script>`: items (prices in copper, 100 cp = 1 gp), then cities and their shops. To add a city, copy the Amox block and fill in its shops; each city has its own price modifier. The party ledger is shared across cities, and purchases are tagged with the city they came from.
+Markets (`markets.html`) has its editable lists at the top of its `<script>`: items (prices in copper, 100 cp = 1 gp), then cities and their shops. To add a city, copy the Amox block (or the smaller Towns block for a generic city) and fill in its shops; each city has its own price modifier. The party ledger is shared across cities, and purchases are tagged with the city they came from. DM price changes (shop markups, events, custom items and specials, inflation) have no panel in the page: use the Save / load box at the top, Export, edit the JSON, Import — the format is documented in a comment above `CITIES` in the file.
 
 NPCs (`npcs.html`) and recaps (`recaps.html`) each have one editable list at the top of their `<script>`: `NPCS` and `SESSIONS`. Add new sessions at the top of `SESSIONS`, newest first.
 
