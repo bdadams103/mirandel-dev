@@ -1,11 +1,14 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Mirandel – Five Thousand Winters</title><style>
-/* Same palette as the map pages: dark green-brown, parchment panels, Georgia. */
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Mirandel – Five Thousand Winters</title><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+/* Same palette as the map pages: dark green-brown, parchment panels, Alegreya. */
 :root{--bg:#1b1a17;--panel:#f4ead5;--ink:#2b2216;--accent:#7a4b1e;--rule:#c9b48a;--route:#c0392b;box-sizing:border-box}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:#2a251c;--ink:#efe4cc;--accent:#e0b06a;--rule:#4a4130;--route:#ff6b57}}
 :root[data-theme="dark"]{--panel:#2a251c;--ink:#efe4cc;--accent:#e0b06a;--rule:#4a4130;--route:#ff6b57}
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%}
-body{background:#1b1a17 url(assets/bg-forest.jpg) center/cover fixed;color:var(--ink);font:15px/1.55 Georgia,"Times New Roman",serif}
+body{background:#1b1a17 url(assets/bg-forest.jpg) center/cover fixed;color:var(--ink);font:15px/1.55 'Alegreya',Georgia,"Times New Roman",serif}
 body::before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(20,18,14,.55),rgba(20,18,14,.72));pointer-events:none;z-index:0}
 /* Top bar: same links on every page. */
 #topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:2px;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--panel);border-bottom:1px solid var(--rule);font-size:14px}
