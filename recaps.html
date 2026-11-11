@@ -28,8 +28,9 @@ const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&
 // ---- EDIT HERE: session recaps -------------------------------------------
 // Add a new session at the TOP of the list, newest first.
 // [title, date, [one line per beat, three or four lines]].
+// The date is optional: [title, [lines]] works too, and shows no date line.
 const SESSIONS=[
-["Session 1","Oct 22, 2026",[
+["Session 1",[
 "After a brief history lesson, we opened in the city of Amox, where in the bustling markets of the Warehouse District, a triton princess, Darya, made her way through the crowds. Awestruck by the technology of the land, namely an airship, she was distracted for a moment, allowing a street urchin to steal her coin purse. Quickly pursuing, she caught him, wrenching back her coin purse. Feeling hungry and slightly overwhelmed, she stepped into a nearby tavern, the Mermaid’s Tail.",
 "Inside, she found a rowdy scene. A gambling game in the corner gone sour, with a large half-orc, Gruum, bullying a small human man with red hair, who you’d later learn was Orrim. From the corner, a voice called out, trying to put a stop to the fight. Silica stood up from the corner, calling out Gruum and trying to defuse the situation. However, Gruum and his two buddies had no intention of letting up their fun, and a fight broke out. Silica did some sick sickle spins, but didn’t hit anything, while Darya stepped up and knocked his shit out, causing his backup to run. Orrim, seemingly smitten with Silica, offered her a ticket to the new play in town, one that Darya also mysteriously had found a ticket to.",
 "Meanwhile, an annoyed Valerius was tracking down his assistant, Edwin, with the help of his secretary, Winnie. They found him in a gambling den, where he was all in on a hand against a sketchy looking man, and Sabine, a blonde woman who was seemingly a bit ditsy. They played the hand, and the pot was split, through a little bit of antics, between Edwin and Sabine. In the pot, two tickets to the show. Sabine and Valerius went together, with Valerius taking the opportunity to scold her for taking advantage of Edwin.",
@@ -43,5 +44,6 @@ const SESSIONS=[
 "Just as it couldn’t get any stranger, a white-haired bard from the corner piped up, and he somehow knew 1. That the old man had been Caedes, and 2. ALL of your names. He identified himself by a few names, Midius being the main one, and said you could call him what you wanted. He said the party actually didn’t have anything to fear from Caedes for now, and to stick together, and they’d all get what they needed, but maybe not what they wanted. He said he had somewhere else to be, and departed. ",
 ]]
 ];
-$('list').innerHTML=SESSIONS.map(s=>`<div class=card><h2>${esc(s[0])}</h2><div class=when>${esc(s[1])}</div>${s[2].map(l=>`<p>${esc(l)}</p>`).join('')}</div>`).join('');
+$('list').innerHTML=SESSIONS.map(s=>{const lines=Array.isArray(s[1])?s[1]:s[2],date=Array.isArray(s[1])?'':s[1];
+return `<div class=card><h2>${esc(s[0])}</h2>${date?`<div class=when>${esc(date)}</div>`:''}${lines.map(l=>`<p>${esc(l)}</p>`).join('')}</div>`}).join('');
 </script></body></html>
