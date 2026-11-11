@@ -7,14 +7,15 @@
    footer of the home hub. */
 :root{--bg:#f6f1e7;--fg:#2b2118;--cd:#fffaf0;--ac:#7a4a1d;--mu:#6b5d4d;--bd:#d9ccb4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1713;--fg:#eadfcb;--cd:#26201a;--ac:#d9a45b;--mu:#a39683;--bd:#3d3328}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 'Alegreya',Georgia,serif}
+*{box-sizing:border-box}body{margin:0;background:#1b1a17 url(assets/bg-forest.jpg) center/cover fixed;color:var(--fg);font:14px/1.5 'Alegreya',Georgia,serif}
+body::before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(20,18,14,.55),rgba(20,18,14,.72));pointer-events:none;z-index:0}
 header{padding:10px 14px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:5}
 #topbar{display:flex;gap:2px;align-items:center;flex-wrap:wrap;padding:2px 0 8px;border-bottom:1px solid var(--bd);margin-bottom:8px}
 #topbar a{color:var(--fg);text-decoration:none;padding:3px 9px;border-radius:4px}
 #topbar a:hover{text-decoration:underline}
 #topbar .brand{font-weight:700;color:var(--ac)}
 h1{font-size:18px;margin:0;color:var(--ac)}
-main{padding:12px;max-width:880px;margin:0 auto}
+main{padding:12px;max-width:880px;margin:0 auto;position:relative;z-index:1}
 .card{background:var(--cd);border:1px solid var(--bd);border-radius:6px;padding:12px 14px;margin-bottom:10px}
 .card h2{margin:0 0 8px;font-size:17px;color:var(--ac)}
 .card p{margin:0 0 8px}

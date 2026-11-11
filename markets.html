@@ -4,13 +4,14 @@
 <style>
 :root{--bg:#f6f1e7;--fg:#2b2118;--cd:#fffaf0;--ac:#7a4a1d;--mu:#6b5d4d;--bd:#d9ccb4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1713;--fg:#eadfcb;--cd:#26201a;--ac:#d9a45b;--mu:#a39683;--bd:#3d3328}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.4 'Alegreya',Georgia,serif}
+*{box-sizing:border-box}body{margin:0;background:#1b1a17 url(assets/bg-forest.jpg) center/cover fixed;color:var(--fg);font:14px/1.4 'Alegreya',Georgia,serif}
+body::before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(20,18,14,.55),rgba(20,18,14,.72));pointer-events:none;z-index:0}
 header{padding:10px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:5}
 h1{font-size:18px;margin:0;color:var(--ac)}h2{margin:0 0 4px;font-size:16px}
 button,select,input,textarea{font:inherit;background:var(--cd);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 7px;max-width:100%}
 button{cursor:pointer}button.on{background:var(--ac);color:var(--bg)}button.pl{border-width:2px}button.pl.on{color:#fff}button.buy{border-color:var(--ac);color:var(--ac)}
 a.back{font-size:14px;color:var(--fg);background:var(--cd);border:1px solid var(--bd);border-radius:4px;padding:3px 7px;text-decoration:none}a.back:hover{border-color:var(--ac)}
-main{display:flex;flex-wrap:wrap;gap:12px;padding:12px;align-items:flex-start}
+main{display:flex;flex-wrap:wrap;gap:12px;padding:12px;align-items:flex-start;position:relative;z-index:1}
 #dir{flex:0 1 300px;min-width:240px;max-height:calc(100vh - 90px);overflow-y:auto;position:sticky;top:70px}#pane{flex:1 1 440px;min-width:0}#pane.wide{flex-basis:100%}
 .card{background:var(--cd);border:1px solid var(--bd);border-radius:6px;padding:8px;margin-bottom:8px;overflow-x:auto}
 .shop{cursor:pointer}.shop:hover{border-color:var(--ac)}.shop.sel{border-color:var(--ac);box-shadow:inset 3px 0 0 var(--ac)}
