@@ -8,7 +8,7 @@
 *{box-sizing:border-box}body{margin:0;background:#1b1a17 url(assets/bg-forest.jpg) center/cover fixed;color:var(--fg);font:14px/1.5 'Alegreya',Georgia,serif}
 body::before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(20,18,14,.55),rgba(20,18,14,.72));pointer-events:none;z-index:0}
 header{padding:0;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:5}
-#topbar{display:flex;gap:2px;align-items:center;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--panel);border-bottom:1px solid var(--bd);font-size:14px;overflow-x:auto}
+#topbar{display:flex;gap:2px;align-items:center;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--panel);border-bottom:1px solid var(--bd);font-size:14pxoverflow-x:auto}
 #topbar a{color:var(--fg);text-decoration:none;padding:4px 10px;border-radius:6px;white-space:nowrap}
 #topbar a:hover{text-decoration:underline}
 #topbar a.on{background:var(--ac);color:var(--panel)}
@@ -25,7 +25,7 @@ input{font:inherit;background:var(--cd);color:var(--fg);border:1px solid var(--b
 .card p{margin:0}
 .muted{color:var(--mu)}
 </style></head><body>
-<header><nav id="topbar"><a class="brand" href="index.html">Mirandel</a><a href="world.html">World Map</a><a href="markets.html">Markets</a><a class="on" href="npcs.html">NPCs</a><a href="pantheon.html">Pantheon</a><a href="recaps.html">Recaps</a></nav><h1>NPC Database <span>Everyone the party has met</span></h1></header>
+<header><nav id="topbar"><a class="brand" href="index.html">Mirandel</a><a href="world.html">World Map</a><a href="markets.html">Markets</a><a class="on" href="npcs.html">NPCs</a><a href="recaps.html">Recaps</a></nav><h1>NPC Database <span>Everyone the party has met</span></h1></header>
 <main>
 <input id="q" placeholder="Search NPCs by name, place, or detail">
 <div class="grid" id="grid"></div>
@@ -38,12 +38,32 @@ const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&
 // Keep it to what the party actually knows. Leave a field blank ('') if unknown.
 // New NPCs go at the end of the list; the page sorts them alphabetically.
 const NPCS=[
-["Caedes","God of murder","Amox","Revealed himself at the golden stag."],
-["Hush","Operative of the Scarlet Brotherhood","","A codenamed operative of the Scarlet Brotherhood."],
-["Lirin","Elf","Amox","An elf in town who can provide a writ of passage to Everlight."],
-["Midius","White-haired bard","The Golden Stag, Amox","Met the party at the Golden Stag. Knows all their names."],
-["Orrin","","","Gave Silica the ticket that brought her to Amox."],
-["Tamsin","Dock tavern keeper","The Mermaid's Tail, Amox","Sells gossip at the dock tavern."]
+["Caedes","God of murder","Amox","Took a human form for the first time in thousands of years to reveal himself to you. Insists you're on the same side."],
+["Lirin","Elf","Amox","The elven apothecary in Amox. He recognized Darya was a Triton, and gave you a writ of admittance to Everlight. Brother of Aelindra."],
+["Midius","White-haired bard","The Golden Stag, Amox","Met the party at the Golden Stag. Seemingly saved Valerius. Visted Silica in a dream, knows way more than he should."],
+["Orrim","Sailor","Amox","Helped the Cult of Caedes set-up the party by delivering tickets to the theater."],
+["Tamsin","Dock tavern keeper","The Mermaid's Tail, Amox","Barkeep"],
+["Gruum","Drunk","Amox","Drunken half-orc who was harassing Orrim"],
+["Edwin","Assistant","Amox","Blonde half-elf under the employ of Valerius, has a gambling problem."],
+["Winnie","Assistant","Amox","Gnome woman who works for Valerius, sweet, maternal towards Valerius"],
+["Dorian Vance","Actor - DEAD","Amox","Famous actor in Amox, killed at the theater by the Cult."],
+["Commander Voss","Amox Guard","Amox","Leader of the city watch on the eastern side of Amox. Trusted the party to clear their name."],
+["Barkis","Clerk","Amox","Older gnome clerk at the Amox Adventurer's Guild."],
+["Alessia","Clerk","Amox","Tiefling clerk at the Amox Adventurer's Guild."],
+["Holg","Clerk","Amox","Half-orc clerk at the Amox Adventuerer's Guild. Wears a Headband of Intellect to make him smarter."],
+["Cassius Mercer","Noble","Amox","Rich patriar who was being extorted by Dorian Vance. Sabine slept with him, then exposed him to his wife."],
+["Elias","Assassin","Amox","Assassin of the Cult of Caedes. True killer of Dorian Vance."],
+["Brother Alden","Priest","Amox","Satyr Priest of Selyne, runs the Mercy House in Amox. Saved Valerius from death."],
+["Brother Tam","Priest","Ferry Falls","Priest of Selyne, helped transport supplies from Ferry Falls to Amox."],
+["Sister Mara","Priestess","Ferry Falls","Priestess of Selyne, helped transport supplies from Ferry Falls to Amox."],
+["Orias","Barkeep","Ferry Falls","Barkeep of the High Lamp. Made some interesting comments about Plinthians to Silica."],
+["Amber","Barmaid","The Wanderer's Rest, Amox","Barmaid. Helped secure the tavern when Valerius felt like there was danger coming."],
+["Lady Corvane Abernathy","Noblewoman","Amox","Rich noble. Paid the party to get back a lockett she had stolen from her."],
+["Amondil","Jewler","Amox","Jewler on Patriar's Hill. Bought Lady Abernathy's stolen lockett off of the Thieve's Guild."],
+["Elodan","Bladesinger?","???","Assassin who played a part in the Elenvale Estate incident. Killed Valerius, leaving before finding out Brother Alden saved him. Extremely Dangerous."],
+["Design","???","???","Female voice, assumed companion of Midius?"],
+["Alaric","Servant, now bird.","Valerius' Familiar","Former First Steward of the Elenvale House. Killed in the Bladesinger Attack, accidentally brought back as Valerius' familiar during his resurrection."],
+
 ];
 function render(){const q=$('q').value.toLowerCase();
 const list=NPCS.filter(n=>!q||n.join(' ').toLowerCase().includes(q)).sort((a,b)=>a[0].localeCompare(b[0]));
