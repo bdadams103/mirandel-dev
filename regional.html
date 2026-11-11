@@ -10,7 +10,8 @@
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:#2a251c;--ink:#efe4cc;--accent:#e0b06a;--rule:#4a4130;--route:#ff6b57}}
 :root[data-theme="dark"]{--panel:#2a251c;--ink:#efe4cc;--accent:#e0b06a;--rule:#4a4130;--route:#ff6b57}
 html,body{height:100%;margin:0;background:var(--bg);font-family:'Alegreya',Georgia,"Times New Roman",serif;overflow:hidden;color:var(--ink)}
-#view{position:absolute;top:calc(42px + env(safe-area-inset-top,0px));right:0;bottom:0;left:0;touch-action:none;cursor:grab;overflow:hidden}
+/* EDIT: map backdrop, trial: forest photo behind the map. Remove the url() to go back to plain dark. */
+#view{position:absolute;top:calc(42px + env(safe-area-inset-top,0px));right:0;bottom:0;left:0;touch-action:none;cursor:grab;overflow:hidden;background:linear-gradient(rgba(20,18,14,.5),rgba(20,18,14,.6)),#1b1a17 url(assets/bg-forest.jpg) center/cover}
 #view.plot{cursor:crosshair}
 #world{position:absolute;left:0;top:0;transform-origin:0 0;--inv:1}
 #world img{display:block;user-select:none;-webkit-user-drag:none}
