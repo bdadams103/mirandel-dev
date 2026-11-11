@@ -18,7 +18,7 @@ main{display:flex;flex-wrap:wrap;gap:12px;padding:12px;align-items:flex-start;po
 .bar{margin:6px 0;display:flex;flex-wrap:wrap;gap:4px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px}
 table{width:100%;border-collapse:collapse}th,td{padding:3px 6px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}.n{text-align:right;white-space:nowrap}.muted{color:var(--mu)}
 .tag{font-size:11px;border:1px solid var(--bd);border-radius:10px;padding:0 6px;color:var(--mu)}#q{width:100%;margin-top:4px}
-#topbar{display:flex;gap:2px;align-items:center;flex-basis:100%;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--panel);border-bottom:1px solid var(--bd);font-size:14px;margin:-10px -14px 2px}
+#topbar{display:flex;gap:2px;align-items:center;flex-basis:100%;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--panel);border-bottom:1px solid var(--bd);font-size:14px;margin:-10px -14px 2px;overflow-x:auto}
 #topbar a{color:var(--fg);text-decoration:none;padding:4px 10px;border-radius:6px;white-space:nowrap}
 #topbar a:hover{text-decoration:underline}
 #topbar a.on{background:var(--ac);color:var(--panel)}
@@ -51,7 +51,6 @@ const B=[...mkI('food',[['Ration (10 days)',500],['Bread (10 loaves)',20],['Chee
 // its shops. The Towns entry is the default-goods list every town shares;
 // keep its shops generic (general store, smithy, inn). Each city has its
 // own price modifier:
-//   maxRarity: rarest item tier sold here without a 50% markup
 //   maxRarity: rarest item tier sold here without a 50% markup
 //     (1 common, 2 uncommon, 3 rare, 4 very rare).
 //   flags: price tweaks by category. f food x0.8, p food/gear x0.9,

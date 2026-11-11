@@ -11,7 +11,7 @@ html,body{margin:0;min-height:100%}
 body{background:#1b1a17 url(assets/bg-forest.jpg) center/cover fixed;color:var(--ink);font:15px/1.55 'Alegreya',Georgia,"Times New Roman",serif}
 body::before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(20,18,14,.55),rgba(20,18,14,.72));pointer-events:none;z-index:0}
 /* Top bar: same links on every page. */
-#topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:2px;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--panel);border-bottom:1px solid var(--rule);font-size:14px}
+#topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:2px;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--panel);border-bottom:1px solid var(--rule);font-size:14px;overflow-x:auto}
 #topbar a{color:var(--ink);text-decoration:none;padding:4px 10px;border-radius:6px;white-space:nowrap}
 #topbar a:hover{text-decoration:underline}
 #topbar a.on{background:var(--accent);color:var(--panel)}
@@ -50,18 +50,18 @@ footer a:hover{text-decoration:underline;opacity:1}
 <h1>Mirandel</h1>
 <p class="sub">Five Thousand Winters</p>
 <!-- EDIT AFTER EACH SESSION: change the line below to where the party is now,
-     for example: The party is in Amox, Day 12. -->
+     for example: The party is on the road to Everlight. -->
 <p class="where">Where we are now: <b>The party is on the road to Everlight.</b></p>
 </div>
 
 <div class="card">
 <!-- EDIT: the welcome paragraph. One paragraph telling players what the site is. -->
-<p>This site is the party&rsquo;s hub for the campaign! Use the <b>World Map</b> to travel and plan routes, <b>Markets</b> to buy gear and track what the party owns (I might overhaul this eventually with some better code, this is what you get for now), and the <b>NPC Database</b> to remember who you have met. The last session&rsquo;s recap is below, with the full list under Recaps.</p>
+<p>This site is the party&rsquo;s hub for the campaign! Use the <b>World Map</b> to travel and plan routes, <b>Markets</b> to browse shops and compare prices (I might overhaul this eventually with some better code, this is what you get for now), and the <b>NPC Database</b> to remember who you have met. The last session&rsquo;s recap is below, with the full list under Recaps.</p>
 </div>
 
 <div class="buttons">
 <a class="bigbtn" href="world.html"><h2>World Map</h2><p>The interactive map of Mirandel. Click a ring for details, plot a route, check travel times.</p><p class="go">Open the map &rarr;</p></a>
-<a class="bigbtn" href="markets.html"><h2>Markets</h2><p>Shops by city and a price finder.</p><p class="go">Go shopping &rarr;</p></a>
+<a class="bigbtn" href="markets.html"><h2>Markets</h2><p>Shops by city and a price finder.</p><p class="go">Browse the markets &rarr;</p></a>
 <a class="bigbtn" href="npcs.html"><h2>NPC Database</h2><p>Everyone I've thought to write lore about.</p><p class="go">Meet the NPCs &rarr;</p></a>
 </div>
 

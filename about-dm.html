@@ -10,7 +10,7 @@
 *{box-sizing:border-box}body{margin:0;background:#1b1a17 url(assets/bg-forest.jpg) center/cover fixed;color:var(--fg);font:14px/1.5 'Alegreya',Georgia,serif}
 body::before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(20,18,14,.55),rgba(20,18,14,.72));pointer-events:none;z-index:0}
 header{padding:0;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:5}
-#topbar{display:flex;gap:2px;align-items:center;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--panel);border-bottom:1px solid var(--bd);font-size:14px}
+#topbar{display:flex;gap:2px;align-items:center;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--panel);border-bottom:1px solid var(--bd);font-size:14px;overflow-x:auto}
 #topbar a{color:var(--fg);text-decoration:none;padding:4px 10px;border-radius:6px;white-space:nowrap}
 #topbar a:hover{text-decoration:underline}
 #topbar a.on{background:var(--ac);color:var(--panel)}
