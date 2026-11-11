@@ -7,7 +7,7 @@
 | `regional.html` | Amox / Ferry Falls / Everwoods regional map. |
 | `amox.html` | City of Amox map. |
 | `markets.html` | Markets: shops by city and a price finder. |
-| `pantheon.html` | The Pantheon: the sixteen gods, their domains, and their alignments, in two tables. |
+| `pantheon.html` | The Pantheon: the sixteen gods, their domains, and their alignments, in one alphabetical table. |
 | `npcs.html` | NPC database. |
 | `recaps.html` | Session recaps, newest first. |
 | `about-dm.html` | About the DM. Linked only from the hub footer, not the top bar. |

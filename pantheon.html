@@ -21,33 +21,32 @@ main{padding:12px;max-width:880px;margin:0 auto;position:relative;z-index:1}
 .card h2{margin:0 0 6px;font-size:17px;color:var(--ac)}
 table{width:100%;border-collapse:collapse}th,td{padding:5px 8px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}th{color:var(--ac);font-size:13px}td:first-child{font-weight:700;white-space:nowrap}
 </style></head><body>
-<header><nav id="topbar"><a class="brand" href="index.html">Mirandel</a><a href="world.html">World Map</a><a href="markets.html">Markets</a><a href="npcs.html">NPCs</a><a class="on" href="pantheon.html">Pantheon</a><a href="recaps.html">Recaps</a></nav><h1>The Pantheon <span>Sixteen gods in two factions</span></h1></header>
+<header><nav id="topbar"><a class="brand" href="index.html">Mirandel</a><a href="world.html">World Map</a><a href="markets.html">Markets</a><a href="npcs.html">NPCs</a><a class="on" href="pantheon.html">Pantheon</a><a href="recaps.html">Recaps</a></nav><h1>The Pantheon <span>Sixteen gods</span></h1></header>
 <main id="list"></main>
 <script>
 const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 // ---- EDIT HERE: gods -----------------------------------------------------
-// One line per god: [name, domain, alignment, faction].
+// One line per god: [name, domain, alignment].
 // Domain is the "God of ..." from the Campaign Setting doc, kept word for
-// word. Faction is 'U' for the Unshacklers or 'K' for the Keepers of the
-// Cycle. Keep the list in the doc's order; the page groups by faction.
+// word. The page sorts the list alphabetically. Do NOT add faction info
+// here: which side a god is on is a spoiler for the players.
 const GODS=[
-["Caedes","God of Murder","Neutral Evil / Chaotic Evil","U"],
-["Dysmion","God of Chaos","Chaotic Neutral","U"],
-["Ealdor","God of Justice and Protection","Lawful Good","U"],
-["Entropy","God of Ruin","Chaotic Neutral / Chaotic Evil","U"],
-["Persana","Goddess of Seas and Freedom","Neutral Good","U"],
-["Lumina","Goddess of Light and Hope","Lawful Good / Neutral Good","U"],
-["Syl","God of Winds and Travel","Chaotic Good / Chaotic Neutral","U"],
-["Selyne","Goddess of Mercy and Healing","Neutral Good","U"],
-["Solas","God of Art and Inspiration","Chaotic Good","U"],
-["Custos","God of Tradition","Lawful Neutral / Lawful Evil","K"],
-["Devotum","God of Duty","Lawful Good / Lawful Neutral","K"],
-["Malacor","God of Tyranny and Subjugation","Lawful Evil","K"],
-["Morwen","Goddess of Death and Decay","Neutral Evil","K"],
-["Occisor","God of Slaughter","Chaotic Evil","K"],
-["Oramis","God of Order","Lawful Neutral","K"],
-["Umbra","Goddess of Secrets","Lawful Evil / Neutral Evil","K"]
+["Caedes","God of Murder","Neutral Evil / Chaotic Evil"],
+["Custos","God of Tradition","Lawful Neutral / Lawful Evil"],
+["Devotum","God of Duty","Lawful Good / Lawful Neutral"],
+["Dysmion","God of Chaos","Chaotic Neutral"],
+["Ealdor","God of Justice and Protection","Lawful Good"],
+["Entropy","God of Ruin","Chaotic Neutral / Chaotic Evil"],
+["Lumina","Goddess of Light and Hope","Lawful Good / Neutral Good"],
+["Malacor","God of Tyranny and Subjugation","Lawful Evil"],
+["Morwen","Goddess of Death and Decay","Neutral Evil"],
+["Occisor","God of Slaughter","Chaotic Evil"],
+["Oramis","God of Order","Lawful Neutral"],
+["Persana","Goddess of Seas and Freedom","Neutral Good"],
+["Selyne","Goddess of Mercy and Healing","Neutral Good"],
+["Solas","God of Art and Inspiration","Chaotic Good"],
+["Syl","God of Winds and Travel","Chaotic Good / Chaotic Neutral"],
+["Umbra","Goddess of Secrets","Lawful Evil / Neutral Evil"]
 ];
-const table=gods=>`<table><tr><th>God<th>Domain<th>Alignment</tr>${gods.map(g=>`<tr><td>${esc(g[0])}<td>${esc(g[1])}<td>${esc(g[2])}</tr>`).join('')}</table>`;
-$('list').innerHTML=`<div class=card><h2>The Unshacklers</h2>${table(GODS.filter(g=>g[3]=='U'))}</div><div class=card><h2>The Keepers of the Cycle</h2>${table(GODS.filter(g=>g[3]=='K'))}</div>`;
+$('list').innerHTML=`<div class=card><table><tr><th>God<th>Domain<th>Alignment</tr>${GODS.slice().sort((a,b)=>a[0].localeCompare(b[0])).map(g=>`<tr><td>${esc(g[0])}<td>${esc(g[1])}<td>${esc(g[2])}</tr>`).join('')}</table></div>`;
 </script></body></html>
