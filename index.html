@@ -1,0 +1,94 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Mirandel – Five Thousand Winters</title><style>
+/* Same palette as the map pages: dark green-brown, parchment panels, Georgia. */
+:root{--bg:#1b1a17;--panel:#f4ead5;--ink:#2b2216;--accent:#7a4b1e;--rule:#c9b48a;--route:#c0392b;box-sizing:border-box}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:#2a251c;--ink:#efe4cc;--accent:#e0b06a;--rule:#4a4130;--route:#ff6b57}}
+:root[data-theme="dark"]{--panel:#2a251c;--ink:#efe4cc;--accent:#e0b06a;--rule:#4a4130;--route:#ff6b57}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:#1b1a17 url(assets/bg-forest.jpg) center/cover fixed;color:var(--ink);font:15px/1.55 Georgia,"Times New Roman",serif}
+body::before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(20,18,14,.55),rgba(20,18,14,.72));pointer-events:none;z-index:0}
+/* Top bar: same links on every page. */
+#topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:2px;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--panel);border-bottom:1px solid var(--rule);font-size:14px}
+#topbar a{color:var(--ink);text-decoration:none;padding:4px 10px;border-radius:6px;white-space:nowrap}
+#topbar a:hover{text-decoration:underline}
+#topbar a.on{background:var(--accent);color:var(--panel)}
+#topbar .brand{font-weight:700;color:var(--accent);font-size:16px}
+#topbar .brand.on{color:var(--panel)}
+main{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:28px 16px 40px}
+.hero{text-align:center;color:#f4ead5;text-shadow:0 1px 8px rgba(0,0,0,.7);margin:18px 0 22px}
+.hero h1{font-size:52px;margin:0;letter-spacing:2px}
+.hero .sub{font-size:18px;font-style:italic;opacity:.9;margin:6px 0 0}
+.hero .where{font-size:16px;margin:14px 0 0}
+.hero .where b{color:#ffd36b}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:8px;box-shadow:0 3px 14px rgba(0,0,0,.45);padding:16px 18px;margin-bottom:14px}
+.card h2{margin:0 0 8px;font-size:19px;color:var(--accent)}
+.card p{margin:0 0 8px}
+.card p:last-child{margin-bottom:0}
+.card .muted{opacity:.75;font-size:13.5px}
+.buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+@media(max-width:640px){.buttons{grid-template-columns:1fr}.hero h1{font-size:40px}}
+.bigbtn{display:block;background:var(--panel);border:1px solid var(--rule);border-radius:8px;box-shadow:0 3px 14px rgba(0,0,0,.45);padding:18px;text-decoration:none;color:var(--ink)}
+.bigbtn:hover{border-color:var(--accent)}
+.bigbtn h2{margin:0 0 6px;font-size:20px;color:var(--accent)}
+.bigbtn p{margin:0;font-size:14px;line-height:1.5}
+.bigbtn .go{color:var(--accent);font-size:14px}
+ul{margin:0;padding-left:20px}
+li{margin-bottom:6px}
+li:last-child{margin-bottom:0}
+li b{color:var(--accent)}
+a{color:var(--accent)}
+footer{position:relative;z-index:1;text-align:center;color:#d8cba8;font-size:13px;text-shadow:0 1px 6px rgba(0,0,0,.7);padding-bottom:24px}
+</style></head><body>
+<nav id="topbar"><a class="brand on" href="index.html">Mirandel</a><a href="world.html">World Map</a><a href="markets.html">Markets</a><a href="npcs.html">NPCs</a><a href="recaps.html">Recaps</a></nav>
+<main>
+<div class="hero">
+<h1>Mirandel</h1>
+<p class="sub">Five Thousand Winters</p>
+<!-- EDIT AFTER EACH SESSION: change the line below to where the party is now,
+     for example: The party is in Amox, Day 12. -->
+<p class="where">Where we are now: <b>The party is in Amox.</b></p>
+</div>
+
+<div class="card">
+<!-- EDIT: the welcome paragraph. One paragraph telling players what the site is. -->
+<p>This site is the party&rsquo;s hub for the Mirandel campaign. Use the <b>World Map</b> to travel and plan routes, <b>Markets</b> to buy gear and track what the party owns, and the <b>NPC Database</b> to remember who you have met. The last session&rsquo;s recap is below, with the full list under Recaps.</p>
+</div>
+
+<div class="buttons">
+<a class="bigbtn" href="world.html"><h2>World Map</h2><p>The interactive map of Mirandel. Click a ring for details, plot a route, check travel times.</p><p class="go">Open the map &rarr;</p></a>
+<a class="bigbtn" href="markets.html"><h2>Markets</h2><p>Shops by city, a price finder, and the party ledger. The ledger follows the party from city to city.</p><p class="go">Go shopping &rarr;</p></a>
+<a class="bigbtn" href="npcs.html"><h2>NPC Database</h2><p>Everyone the party has met, in one place.</p><p class="go">Meet the NPCs &rarr;</p></a>
+</div>
+
+<div class="card">
+<h2>Last session</h2>
+<!-- EDIT AFTER EACH SESSION: replace the heading and lines with the latest
+     session, and add the full version to recaps.html. -->
+<p><b>Session 1 &mdash; Oct 22, 2026</b></p>
+<p>The party came together in Amox, and their names were cleared.</p>
+<p>Caedes revealed himself at the golden stag.</p>
+<p>The party met Midius, a white-haired bard who knew all their names.</p>
+<p><a href="recaps.html">All session recaps &rarr;</a></p>
+</div>
+
+<div class="card">
+<h2>Active quests</h2>
+<!-- EDIT: one line per quest. Add a line when a quest starts, remove it when it is done. -->
+<ul>
+<li><b>The road to Everlight.</b> The party is heading for Everlight, where one of Darya&rsquo;s scales waits. About two weeks on foot, with no roads.</li>
+<li><b>The missing locket.</b> A locket has gone missing in Amox, and the trail leads toward the thieves&rsquo; guild.</li>
+<li><b>The rat cellar.</b> Rats in a cellar. The job is on the board.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Quick tips</h2>
+<ul>
+<li>Click a ring for details.</li>
+<li>Click the outlined area for a regional map.</li>
+<li>Press Esc to clear a route.</li>
+</ul>
+</div>
+</main>
+<footer>Darya &middot; Sabine &middot; Valerius &middot; Silica</footer>
+</body></html>

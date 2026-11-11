@@ -1,0 +1,147 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Markets</title><style>
+:root{--bg:#f6f1e7;--fg:#2b2118;--cd:#fffaf0;--ac:#7a4a1d;--mu:#6b5d4d;--bd:#d9ccb4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1713;--fg:#eadfcb;--cd:#26201a;--ac:#d9a45b;--mu:#a39683;--bd:#3d3328}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.4 Georgia,serif}
+header{padding:10px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:5}
+h1{font-size:18px;margin:0;color:var(--ac)}h2{margin:0 0 4px;font-size:16px}
+button,select,input,textarea{font:inherit;background:var(--cd);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 7px;max-width:100%}
+button{cursor:pointer}button.on{background:var(--ac);color:var(--bg)}button.pl{border-width:2px}button.pl.on{color:#fff}button.buy{border-color:var(--ac);color:var(--ac)}
+a.back{font-size:14px;color:var(--fg);background:var(--cd);border:1px solid var(--bd);border-radius:4px;padding:3px 7px;text-decoration:none}a.back:hover{border-color:var(--ac)}
+main{display:flex;flex-wrap:wrap;gap:12px;padding:12px;align-items:flex-start}
+#dir{flex:0 1 300px;min-width:240px;max-height:calc(100vh - 90px);overflow-y:auto;position:sticky;top:70px}#pane{flex:1 1 440px;min-width:0}#pane.wide{flex-basis:100%}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:6px;padding:8px;margin-bottom:8px;overflow-x:auto}
+.shop{cursor:pointer}.shop:hover{border-color:var(--ac)}.shop.sel{border-color:var(--ac);box-shadow:inset 3px 0 0 var(--ac)}
+.bar{margin:6px 0;display:flex;flex-wrap:wrap;gap:4px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px}
+table{width:100%;border-collapse:collapse}th,td{padding:3px 6px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}.n{text-align:right;white-space:nowrap}.muted{color:var(--mu)}
+tr.got td:first-child{box-shadow:inset 3px 0 0 var(--ac)}
+.tag{font-size:11px;border:1px solid var(--bd);border-radius:10px;padding:0 6px;color:var(--mu)}.chip{font-size:11px;color:#fff;border-radius:10px;padding:1px 7px;white-space:nowrap}
+#flash{display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ac);color:var(--bg);padding:8px 14px;border-radius:6px;z-index:9}
+#q{width:100%;margin-top:4px}
+#topbar{display:flex;gap:2px;align-items:center;flex-basis:100%;padding:2px 0 8px;border-bottom:1px solid var(--bd);margin-bottom:2px}
+#topbar a{color:var(--fg);text-decoration:none;padding:3px 9px;border-radius:4px}
+#topbar a:hover{text-decoration:underline}
+#topbar a.on{background:var(--ac);color:var(--bg)}
+#topbar .brand{font-weight:700;color:var(--ac)}
+</style></head><body>
+<header><nav id="topbar"><a class="brand" href="index.html">Mirandel</a><a href="world.html">World Map</a><a class="on" href="markets.html">Markets</a><a href="npcs.html">NPCs</a><a href="recaps.html">Recaps</a></nav><h1>Markets</h1><nav><button data-t=s>Shops</button> <button data-t=f>Find an item</button> <button data-t=l>Party ledger</button></nav>
+<span><span class=muted>Shopping as:</span> <span id=who></span></span>
+<details><summary>Save / load</summary><textarea id=io rows=4 cols=36 placeholder="Purchases auto-save in this browser. Export to copy them; paste saved data (or the DM's market export, to sync prices) and press Import."></textarea><br><button id=bx>Export</button> <button id=bi>Import</button></details></header>
+<main id=main></main><div id=flash></div>
+<script>
+const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// ---- EDIT HERE: items --------------------------------------------
+// Prices are in copper: 100 cp = 1 gp. Add a line per item:
+// ['Name', priceInCp] or ['Name', priceInCp, rarity, 'Source'].
+// Rarity: 1 common, 2 uncommon, 3 rare, 4 very rare. Source defaults to PHB.
+const mkI=(c,l,r)=>l.map(a=>[a[0],c,a[1],a[2]||1,a[3]||r||'PHB']);
+const B=[...mkI('food',[['Ration (10 days)',500],['Bread (10 loaves)',20],['Cheese (10 wedges)',100],['Meat (10 chunks)',300],['Ale (gallon)',200],['Wine, common (pitcher)',200],['Wine, fine (bottle)',1000],['Meal, modest',30],['Meal, comfortable',50],['Meal, wealthy',80]]),
+...mkI('lodging',[['Inn, squalid',7],['Inn, poor',10],['Inn, modest',50],['Inn, comfortable',80],['Inn, wealthy',200],['Inn, aristocratic',400],['Stabling (1 day)',50]]),
+...mkI('gear',[['Backpack',200],['Bedroll',100],['Blanket',50],['Rope, hempen (50 ft)',100],['Rope, silk (50 ft)',1000],['Torches (10)',10],['Lantern, hooded',500],['Oil (10 flasks)',100],['Tent, two-person',200],['Waterskin',20],["Healer's kit",500],["Thieves' tools",2500],['Tinderbox',50],['Crowbar',200],['Grappling hook',200],['Manacles',200],["Climber's kit",2500],['Spyglass',100000],['Holy symbol',500],['Component pouch',2500],['Spellbook',5000],['Mess kit',20],['Lock',1000],['Caltrops (20)',100],['Ink (1 oz)',1000],['Paper (5 sheets)',200],['Book',2500],['Perfume (vial)',500],['Clothes, common',50],["Clothes, traveler's",200],['Clothes, fine',1500],['Gem (100 gp value)',10000],['Riding horse',7500],['Warhorse',40000],['Mule',800],['Cart',1500],['Wagon',3500],['Rowboat',5000],['Keelboat',300000],['Sailing ship',1000000],['Warship',2500000]]),
+...mkI('weapon',[['Club',10],['Dagger',200],['Quarterstaff',20],['Spear',100],['Handaxe',500],['Mace',500],['Sling',10],['Shortsword',1000],['Battleaxe',1000],['Whip',200],['Trident',500],['Longsword',1500],['Warhammer',1500],['Rapier',2500],['Scimitar',2500],['Halberd',2000],['Greataxe',3000],['Greatsword',5000],['Shortbow',2500],['Light crossbow',2500],['Longbow',5000],['Heavy crossbow',5000],['Hand crossbow',7500],['Arrows (20)',100],['Bolts (20)',100]]),
+...mkI('armor',[['Padded',500],['Leather',1000],['Studded leather',4500],['Hide',1000],['Chain shirt',5000],['Scale mail',5000],['Breastplate',40000],['Half plate',75000],['Ring mail',3000],['Chain mail',7500],['Splint',20000],['Plate',150000],['Shield',1000]]),
+...mkI('potion',[['Potion of Healing (common)',5000],['Potion of Climbing (common)',5000],['Potion of Greater Healing (uncommon)',15000,3,'DMG'],['Potion of Water Breathing (uncommon)',20000,3,'DMG'],['Potion of Resistance (uncommon)',20000,3,'DMG'],['Potion of Superior Healing (rare)',50000,4,'DMG'],['Potion of Supreme Healing (very rare)',500000,4,'DMG'],['Potion of Invisibility (very rare)',500000,4,'DMG'],['Antitoxin',5000],["Alchemist's fire",5000],['Acid (vial)',2500],['Holy water',2500],['Poison, basic (vial)',10000]]),
+...mkI('magic',[['Moon-Touched Sword (common)',10000,2,'XGtE'],['Staff of Flowers (common)',10000,2,'XGtE'],['Wand of Pyrotechnics (common)',10000,2,'XGtE'],['Cloak of Billowing (common)',10000,2,'XGtE'],['Orb of Direction (common)',10000,2,'XGtE'],['Clothes of Mending (common)',10000,2,'XGtE'],['Tankard of Sobriety (common)',10000,2,'XGtE'],['Enduring Spellbook (common)',10000,2,'XGtE'],['Ear Horn of Hearing (common)',10000,2,'XGtE'],['Bead of Nourishment (common)',10000,2,'XGtE'],
+['Spell Scroll, cantrip-1st (common)',5000,2,'DMG'],['Spell Scroll, 2nd-3rd (uncommon)',20000,3,'DMG'],['Spell Scroll, 4th-5th (rare)',200000,4,'DMG'],['Spell Scroll, 6th-8th (very rare)',2000000,4,'DMG'],
+['Weapon +1 (uncommon)',40000,3,'DMG'],['Bag of Holding (uncommon)',40000,3,'DMG'],['Cloak of Protection (uncommon)',40000,3,'DMG'],['Boots of Elvenkind (uncommon)',40000,3,'DMG'],['Cloak of Elvenkind (uncommon)',40000,3,'DMG'],['Goggles of Night (uncommon)',40000,3,'DMG'],['Rope of Climbing (uncommon)',40000,3,'DMG'],['Wand of Magic Missiles (uncommon)',40000,3,'DMG'],['Wand of Secrets (uncommon)',40000,3,'DMG'],['Immovable Rod (uncommon)',40000,3,'DMG'],['Alchemy Jug (uncommon)',40000,3,'DMG'],['Driftglobe (uncommon)',40000,3,'DMG'],['Pearl of Power (uncommon)',40000,3,'DMG'],['Brooch of Shielding (uncommon)',40000,3,'DMG'],['Lantern of Revealing (uncommon)',40000,3,'DMG'],
+['Armor +1 (rare)',400000,4,'DMG'],['Weapon +2 (rare)',400000,4,'DMG'],['Ring of Protection (rare)',400000,4,'DMG'],['Amulet of Health (rare)',400000,4,'DMG'],['Bracers of Defense (rare)',400000,4,'DMG'],['Cloak of Displacement (rare)',400000,4,'DMG'],['Flame Tongue (rare)',400000,4,'DMG'],['Wand of Fireballs (rare)',400000,4,'DMG'],
+['Weapon +3 (very rare)',4000000,4,'DMG'],['Armor +2 (very rare)',4000000,4,'DMG'],['Armor +3 (legendary)',20000000,4,'DMG'],['Vorpal Sword (legendary)',20000000,4,'DMG']])];
+// ---- EDIT HERE: cities and shops -----------------------------------
+// To add a city: copy the Amox block below, change the name, and fill in
+// its shops. Each city has its own price modifier:
+//   maxRarity: rarest item tier sold here without a 50% markup
+//     (1 common, 2 uncommon, 3 rare, 4 very rare).
+//   flags: price tweaks by category. f food x0.8, p food/gear x0.9,
+//     m weapons/armor x0.85, r remote, everything x1.2, w food x1.5,
+//     e potions/magic x0.9, b lodging x1.25. Combine letters, e.g. 'pb'.
+// Shops: [name, district, description, [categories], items filter,
+//   magic filter]. The filters are case-insensitive matches on item names.
+// Keep shop names unique across cities: DM markups are keyed by shop name.
+const CITIES=[
+{name:'Amox',maxRarity:4,flags:'pb',shops:[['Torin & Sons Shipwrights','Shipyards','Dwarven yard building hulls and boats',['gear'],'boat|ship',''],
+['Sprocket & Zook Runepowder Works','Shipyards','Gnome airship engines and lamps',['gear'],'lantern|oil|tinder|torch|lock','wand of pyro|orb of|driftglobe|immovable'],
+["Pip's Rope and Rigging",'Shipyards','Chandlery: rope, sail, tar, charts',['gear'],'rope|grapp|tent|backpack|bedroll|waterskin|torch|climber|lantern|oil|paper','rope of climbing'],
+['The Salted Anchor','Shipyards',"Shipwrights' tavern",['food','lodging'],'ale|meal|wine|poor|modest|stabl',''],
+['Silverthal Apothecary',"Merchant's Quarter",'Elven herbs, tinctures, draughts',['potion','gear'],'potion|antitoxin|alchemist|acid|holy water|poison|healer|perfume','goggles|pearl|secrets|brooch'],
+["Adler's Fine Cloth","Merchant's Quarter",'Tailors to half the Hill',['gear'],'clothes|blanket|tent|bedroll','clothes of|cloak'],
+['Geargrind Curios',"Merchant's Quarter",'Gnome clockwork and curios',['gear'],'lock|spyglass|tinder|lantern|thieves|manacles|caltrops|crowbar','immovable|driftglobe|orb of|alchemy|lantern of|bag of|goggles|wand of pyro'],
+['Coppervein Smithy',"Merchant's Quarter",'Dwarven forge: arms and armor',['weapon','armor'],'','^weapon|^armor|flame|vorpal'],
+['Moonbrook Maps and Books',"Merchant's Quarter",'Charts, travel accounts, plays',['gear'],'spellbook|ink|paper|book','scroll|enduring|secrets'],
+['The Gilded Ledger',"Merchant's Quarter",'Upscale inn for traders',['food','lodging'],'meal|wine|modest|comfort|wealthy|aristo|stabl',''],
+['The Mermaids Tail','Warehouse District','Dock tavern; Tamsin sells gossip',['food','lodging'],'ale|meal|wine|poor|modest|stabl',''],
+['The Dockside Market','Warehouse District','Open-air stalls on the north quay',['food','gear'],'ration|bread|cheese|meat|ale|wine|meal|rope|torch|waterskin|bedroll|backpack|clothes, common',''],
+['The Rusted Hook','Warehouse District','Cheap dockside drink hall',['food','lodging'],'ale|wine|poor',''],
+['Greenbottle Provisioners','Warehouse District','Halfling voyage stores',['food','gear'],'ration|bread|cheese|meat|ale|waterskin|backpack|bedroll|tent|tinder|torch|mess|oil',''],
+["Dagmar's Bakery",'The Warrens','Dense rye loaves',['food'],'bread|cheese|meal|ration',''],
+["Corinna's Pawn and Loan",'The Warrens','Used goods at hard rates',['gear','weapon','armor'],'dagger|club|spear|handaxe|crossbow|leather|padded|shield|lantern|manacles|thieves|crowbar|backpack|rope|gem',''],
+['The Crooked Lantern','The Warrens','Dice tavern',['food','lodging'],'ale|wine|meal|poor',''],
+['The Weeping Cask','The Warrens',"Cheap tavern, smugglers' kegs",['food','lodging'],'ale|wine|meal|poor',''],
+["The Wanderer's Rest",'Foreign Quarter','Cheap caravan inn',['food','lodging'],'meal|ale|ration|poor|modest|stabl',''],
+['The Three Compasses','Foreign Quarter',"Merchants' and captains' inn",['food','lodging'],'meal|ale|wine|modest|comfort|stabl',''],
+['The Golden Stag','Foreign Quarter','Expensive inn for envoys',['food','lodging'],'wine|meal|comfort|wealthy|aristo|stabl',''],
+['Sterling & Vale Imports','Foreign Quarter','Silks, spices, glassware',['gear'],'silk|spyglass|perfume|clothes, fine|ink|gem','cloak|boots of elven|brooch|bag of'],
+['Winters & Vale Jewelers',"Patriar's Hill",'Jewelers to the Hill',['gear'],'gem|holy symbol|component','ring of|amulet|brooch|pearl|bracers'],
+['The Velvet Gavel',"Patriar's Hill",'Private members club',['food','lodging'],'wine|meal|wealthy|aristo','']]}]; // end of shops, end of the Amox city, end of CITIES
+const PL=[['Darya','#b5523b'],['Sabine','#3b7bb5'],['Valerius','#8a4fb0'],['Silica','#3f8a5c']];
+const K2='amoxPlayerMarket1'; // kept so existing saved purchases still load
+let CITY=CITIES[0]; // the city whose shops and prices are showing
+const DIST=()=>[...new Set(CITY.shops.map(s=>s[1]))]; // districts in this city
+let S={pl:'',city:0,tab:'s',shop:0,dist:'all',cat:'all',q:'',buy:[],dm:{ev:[],brew:{},mk:{},cu:[],inf:0}};
+try{Object.assign(S,JSON.parse(localStorage.getItem(K2)||'{}'))}catch(e){}
+if(!CITIES[S.city])S.city=0;CITY=CITIES[S.city];if(S.shop>=CITY.shops.length)S.shop=0;
+const save=()=>{try{localStorage.setItem(K2,JSON.stringify({pl:S.pl,city:S.city,tab:S.tab,shop:S.shop,dist:S.dist,buy:S.buy,dm:S.dm}))}catch(e){}};
+const ITEMS=()=>B.concat(S.dm.cu||[]),rx=r=>new RegExp(r,'i');
+function loc(t,c){const g=t.flags;let m=1;if(g.includes('f')&&c=='food')m*=.8;if(g.includes('p')&&(c=='food'||c=='gear'))m*=.9;if(g.includes('m')&&(c=='weapon'||c=='armor'))m*=.85;if(g.includes('r'))m*=1.2;if(g.includes('w')&&c=='food')m*=1.5;if(g.includes('e')&&(c=='potion'||c=='magic'))m*=.9;if(g.includes('b')&&c=='lodging')m*=1.25;return m}
+const evf=(t,c)=>(S.dm.ev||[]).reduce((m,e)=>e.on&&e.t.includes(t.name)&&e.c.includes(c)?m*(1+e.p/100):m,1);
+function price(it,t){let c=it[2]*loc(t,it[1])*evf(t,it[1])*(1+(S.dm.inf||0)/100);if(t.maxRarity<it[3])c*=1.5;return Math.max(1,Math.round(c/100))}
+// Every item a shop sells: {n,c,p,src,note,mg,brew}
+function stock(si){const sh=CITY.shops[si],k=(S.dm.mk||{})[sh[0]]||0,I=ITEMS(),sp=i=>Math.max(1,Math.round(price(i,CITY)*(1+k/100)));
+const gd=I.filter(i=>sh[3].includes(i[1])&&(!sh[4]||rx(sh[4]).test(i[0]))).map(i=>({n:i[0],c:i[1],p:sp(i),src:i[4]}));
+const mg=sh[5]?I.filter(i=>i[1]=='magic'&&rx(sh[5]).test(i[0])).map(i=>({n:i[0],c:'magic',p:sp(i),src:i[4],mg:1})):[];
+const br=((S.dm.brew||{})[sh[0]]||[]).map(b=>({n:b.n,c:'special',p:b.p,note:b.d,brew:1}));
+return gd.concat(mg,br)}
+const ALL=()=>CITY.shops.flatMap((s,si)=>stock(si).map(it=>({...it,si})));
+const col=n=>(PL.find(p=>p[0]==n)||['','#888'])[1];
+const qty=(pl,si,n)=>S.buy.filter(b=>b.pl==pl&&b.s==CITY.shops[si][0]&&(b.c||'Amox')==CITY.name&&b.i==n).reduce((a,b)=>a+b.q,0);
+const who=(si,n)=>PL.map(p=>[p[0],qty(p[0],si,n)]).filter(x=>x[1]);
+const chip=(n,q)=>`<span class=chip style="background:${col(n)}">${esc(n)}${q>1?' ×'+q:''}</span>`;
+function buy(si,n,p,d){if(!S.pl){flash('Pick who is shopping first (top of the page).');return}const sh=CITY.shops[si][0];let r=S.buy.find(b=>b.pl==S.pl&&b.s==sh&&(b.c||'Amox')==CITY.name&&b.i==n);
+if(d>0){if(r)r.q++;else S.buy.push({pl:S.pl,c:CITY.name,s:sh,i:n,q:1,p})}else if(r){r.q--;if(r.q<=0)S.buy.splice(S.buy.indexOf(r),1)}save();render()}
+function flash(m){const f=$('flash');f.textContent=m;f.style.display='block';clearTimeout(flash.t);flash.t=setTimeout(()=>f.style.display='none',2500)}
+function row(it,showShop){const mine=S.pl?qty(S.pl,it.si,it.n):0,w=who(it.si,it.n),a=`data-si=${it.si} data-n="${esc(it.n)}" data-p=${it.p}`;
+return `<tr class="${w.length?'got':''}"><td>${esc(it.n)}${it.mg?` <span class=muted>(${it.src})</span>`:''}${it.brew?' <span class=tag>special</span>':''}${it.note?`<br><span class=muted>${esc(it.note)}</span>`:''}${showShop?`<br><a href=# data-a=open data-v=${it.si} class=muted>${esc(CITY.shops[it.si][0])}, ${esc(CITY.shops[it.si][1])}</a>`:''}
+<td class=n><b>${it.p}</b> gp<td>${w.map(x=>chip(x[0],x[1])).join(' ')}<td class=n style="white-space:nowrap">${mine?`<button data-a=minus ${a} title="Undo one">−</button> `:''}<button data-a=plus ${a} class=buy>${mine?'+1':'Buy'}</button></tr>`}
+const table=(rows,shop)=>rows.length?`<table><tr><th>Item<th class=n>Price<th>Bought by<th></tr>${rows.map(r=>row(r,shop)).join('')}</table>`:'<p class=muted>Nothing matches.</p>';
+const catBar=(cats)=>`<div class=bar>${['all',...cats].map(c=>`<button data-a=cat data-v=${c} class="${S.cat==c?'on':''}">${c}</button>`).join(' ')}</div>`;
+function rShops(){const list=CITY.shops.map((s,i)=>[s,i]).filter(x=>S.dist=='all'||x[0][1]==S.dist);
+const sh=CITY.shops[S.shop],st=stock(S.shop),cats=[...new Set(st.map(i=>i.c))],q=S.q.toLowerCase(),rows=st.filter(i=>(S.cat=='all'||i.c==S.cat)&&(!q||i.n.toLowerCase().includes(q))).map(i=>({...i,si:S.shop}));
+const n=S.buy.filter(b=>b.s==sh[0]&&(b.c||'Amox')==CITY.name).reduce((a,b)=>a+b.q,0);
+$('main').innerHTML=`<section id=dir><div class=card><b>City</b><div class=bar>${CITIES.map((c,i)=>`<button data-a=city data-v=${i} class="${S.city==i?'on':''}">${esc(c.name)}</button>`).join(' ')}</div></div>
+<div class=card><b>District</b><div class=bar>${['all',...DIST()].map(d=>`<button data-a=dist data-v="${esc(d)}" class="${S.dist==d?'on':''}">${d=='all'?'All':esc(d)}</button>`).join(' ')}</div></div>
+${list.map(([s,i])=>`<div class="card shop ${i==S.shop?'sel':''}" data-a=open data-v=${i}><b>${esc(s[0])}</b><br><span class=muted>${esc(s[1])}. ${esc(s[2])}</span><br>${s[3].map(c=>`<span class=tag>${c}</span>`).join(' ')}${s[5]?' <span class=tag>magic</span>':''}</div>`).join('')}</section>
+<section id=pane><div class=card><h2>${esc(sh[0])}</h2><span class=muted>${esc(sh[1])}, ${esc(CITY.name)}. ${esc(sh[2])}</span>${n?`<br><span class=muted>Party has bought ${n} item${n>1?'s':''} here.</span>`:''}
+${catBar(cats)}<input id=q placeholder="Search this shop" value="${esc(S.q)}"></div><div class=card id=tb>${table(rows,0)}</div></section>`}
+function rFind(){const q=S.q.toLowerCase(),all=ALL(),cats=[...new Set(all.map(i=>i.c))];let r=all.filter(i=>(S.cat=='all'||i.c==S.cat)&&(!q||i.n.toLowerCase().includes(q))).sort((a,b)=>a.n.localeCompare(b.n)||a.p-b.p);
+const lim=200,more=r.length>lim;r=r.slice(0,lim);
+$('main').innerHTML=`<section id=pane class=wide><div class=card><h2>Find an item</h2><span class=muted>Searches every shop in ${CITY.name}. Same item at several shops? Compare prices here.</span>${catBar(cats)}<input id=q placeholder="e.g. rope, healing, longsword" value="${esc(S.q)}" autofocus></div><div class=card id=tb>${table(r,1)}${more?'<p class=muted>Showing first 200. Narrow your search.</p>':''}</div></section>`}
+function rLedger(){const tot=a=>a.reduce((s,b)=>s+b.p*b.q,0);
+$('main').innerHTML=`<section id=pane class=wide><div class=card><h2>Party ledger</h2><span class=muted>Prices are locked in at the moment of purchase. Party total: <b>${tot(S.buy)} gp</b></span></div><div class=grid>
+${PL.map(([p,c])=>{const L=S.buy.filter(b=>b.pl==p);return `<div class=card style="border-top:4px solid ${c}"><h2>${p}</h2>${L.length?`<table><tr><th>Item<th class=n>Qty<th class=n>Total<th></tr>${L.map(b=>`<tr><td>${esc(b.i)}<br><span class=muted>${esc(b.s)}, ${esc(b.c||'Amox')}, ${b.p} gp each</span><td class=n>${b.q}<td class=n><b>${b.p*b.q}</b><td><button data-a=del data-v=${S.buy.indexOf(b)} title=Remove>x</button></tr>`).join('')}<tr><td><b>Spent</b><td><td class=n><b>${tot(L)} gp</b><td></tr></table><button data-a=clr data-v=${p}>Clear ${p}'s list</button>`:'<p class=muted>Nothing bought yet.</p>'}</div>`}).join('')}</div></section>`}
+function render(){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t==S.tab));
+$('who').innerHTML=PL.map(([p,c])=>`<button data-p="${p}" class="pl ${S.pl==p?'on':''}" style="${S.pl==p?`background:${c};border-color:${c}`:`border-color:${c}`}">${p}</button>`).join(' ');
+const y=scrollY,f=document.activeElement&&document.activeElement.id=='q',pos=f?$('q').selectionStart:0;({s:rShops,f:rFind,l:rLedger})[S.tab]();scrollTo(0,y);if(f&&$('q')){$('q').focus();$('q').setSelectionRange(pos,pos)}}
+function fillTb(){if(S.tab=='s'){const st=stock(S.shop),q=S.q.toLowerCase();$('tb').innerHTML=table(st.filter(i=>(S.cat=='all'||i.c==S.cat)&&(!q||i.n.toLowerCase().includes(q))).map(i=>({...i,si:S.shop})),0)}else render()}
+$('main').onclick=e=>{const d=e.target.closest('[data-a]');if(!d)return;const a=d.dataset.a,v=d.dataset.v;if(d.tagName=='A')e.preventDefault();
+if(a=='open'){S.shop=+v;S.tab='s';S.cat='all';S.q='';save();render();scrollTo(0,0)}else if(a=='city'){S.city=+v;CITY=CITIES[S.city];S.shop=0;S.dist='all';S.cat='all';S.q='';save();render();scrollTo(0,0)}else if(a=='dist'){S.dist=v;save();render()}else if(a=='cat'){S.cat=v;render()}
+else if(a=='plus'||a=='minus')buy(+d.dataset.si,d.dataset.n,+d.dataset.p,a=='plus'?1:-1);
+else if(a=='del'){S.buy.splice(+v,1);save();render()}
+else if(a=='clr'){if(d.dataset.c){S.buy=S.buy.filter(b=>b.pl!=v);save();render()}else{d.dataset.c=1;d.textContent='Click again to clear';setTimeout(()=>{if(d.isConnected){delete d.dataset.c;d.textContent=`Clear ${v}'s list`}},3000)}}};
+$('main').oninput=e=>{if(e.target.id=='q'){S.q=e.target.value;S.tab=='s'?fillTb():render()}};
+$('who').onclick=e=>{const p=e.target.dataset.p;if(p){S.pl=S.pl==p?'':p;save();render()}};
+document.querySelector('nav').onclick=e=>{const t=e.target.dataset.t;if(t){S.tab=t;S.cat='all';S.q='';save();render()}};
+$('bx').onclick=()=>{$('io').value=JSON.stringify({buy:S.buy,dm:S.dm})};
+$('bi').onclick=()=>{try{const d=JSON.parse($('io').value);let m=[];
+if(d.buy){S.buy=d.buy;m.push('purchases')}
+if(d.dm)S.dm=d.dm,m.push('prices');else if(d.ev||d.mk||d.brew||d.inf!=null||d.cu){S.dm={ev:d.ev||[],brew:d.brew||{},mk:d.mk||{},cu:d.cu||[],inf:d.inf||0};m.push('DM prices')}
+if(!m.length)throw 0;save();render();$('io').value='Loaded '+m.join(' and ')+'.'}catch(e){$('io').value='Invalid data'}};
+render();
+</script></body></html>

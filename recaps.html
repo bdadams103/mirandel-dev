@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Session Recaps – Mirandel</title><style>
+/* Same palette as the Markets page: parchment, Georgia. */
+:root{--bg:#f6f1e7;--fg:#2b2118;--cd:#fffaf0;--ac:#7a4a1d;--mu:#6b5d4d;--bd:#d9ccb4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1713;--fg:#eadfcb;--cd:#26201a;--ac:#d9a45b;--mu:#a39683;--bd:#3d3328}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 Georgia,serif}
+header{padding:10px 14px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:5}
+#topbar{display:flex;gap:2px;align-items:center;flex-wrap:wrap;padding:2px 0 8px;border-bottom:1px solid var(--bd);margin-bottom:8px}
+#topbar a{color:var(--fg);text-decoration:none;padding:3px 9px;border-radius:4px}
+#topbar a:hover{text-decoration:underline}
+#topbar a.on{background:var(--ac);color:var(--bg)}
+#topbar .brand{font-weight:700;color:var(--ac)}
+h1{font-size:18px;margin:0;color:var(--ac)}
+h1 span{font-size:14px;color:var(--mu);font-weight:400}
+main{padding:12px;max-width:880px;margin:0 auto}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:6px;padding:12px 14px;margin-bottom:10px}
+.card h2{margin:0 0 2px;font-size:17px;color:var(--ac)}
+.card .when{color:var(--mu);font-size:13px;font-style:italic;margin-bottom:6px}
+.card p{margin:0 0 6px}
+.card p:last-child{margin-bottom:0}
+</style></head><body>
+<header><nav id="topbar"><a class="brand" href="index.html">Mirandel</a><a href="world.html">World Map</a><a href="markets.html">Markets</a><a href="npcs.html">NPCs</a><a class="on" href="recaps.html">Recaps</a></nav><h1>Session Recaps <span>Newest first</span></h1></header>
+<main id="list"></main>
+<script>
+const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// ---- EDIT HERE: session recaps -------------------------------------------
+// Add a new session at the TOP of the list, newest first.
+// [title, date, [one line per beat, three or four lines]].
+const SESSIONS=[
+["Session 1","Oct 22, 2026",[
+"The party came together in Amox, and their names were cleared.",
+"Caedes revealed himself at the golden stag.",
+"The party met Midius, a white-haired bard who knew all their names."
+]]
+];
+$('list').innerHTML=SESSIONS.map(s=>`<div class=card><h2>${esc(s[0])}</h2><div class=when>${esc(s[1])}</div>${s[2].map(l=>`<p>${esc(l)}</p>`).join('')}</div>`).join('');
+</script></body></html>

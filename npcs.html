@@ -1,0 +1,47 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>NPC Database – Mirandel</title><style>
+/* Same palette as the Markets page: parchment, Georgia. */
+:root{--bg:#f6f1e7;--fg:#2b2118;--cd:#fffaf0;--ac:#7a4a1d;--mu:#6b5d4d;--bd:#d9ccb4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1713;--fg:#eadfcb;--cd:#26201a;--ac:#d9a45b;--mu:#a39683;--bd:#3d3328}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 Georgia,serif}
+header{padding:10px 14px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:5}
+#topbar{display:flex;gap:2px;align-items:center;flex-wrap:wrap;padding:2px 0 8px;border-bottom:1px solid var(--bd);margin-bottom:8px}
+#topbar a{color:var(--fg);text-decoration:none;padding:3px 9px;border-radius:4px}
+#topbar a:hover{text-decoration:underline}
+#topbar a.on{background:var(--ac);color:var(--bg)}
+#topbar .brand{font-weight:700;color:var(--ac)}
+h1{font-size:18px;margin:0;color:var(--ac)}
+h1 span{font-size:14px;color:var(--mu);font-weight:400}
+main{padding:12px;max-width:880px;margin:0 auto}
+input{font:inherit;background:var(--cd);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:6px 9px;width:100%;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:6px;padding:12px 14px}
+.card h2{margin:0 0 2px;font-size:17px;color:var(--ac)}
+.card .who{color:var(--mu);font-size:13px;font-style:italic;margin-bottom:6px}
+.card p{margin:0}
+.muted{color:var(--mu)}
+</style></head><body>
+<header><nav id="topbar"><a class="brand" href="index.html">Mirandel</a><a href="world.html">World Map</a><a href="markets.html">Markets</a><a class="on" href="npcs.html">NPCs</a><a href="recaps.html">Recaps</a></nav><h1>NPC Database <span>Everyone the party has met</span></h1></header>
+<main>
+<input id="q" placeholder="Search NPCs by name, place, or detail">
+<div class="grid" id="grid"></div>
+<p class="muted" id="none" style="display:none">No NPCs match.</p>
+</main>
+<script>
+const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// ---- EDIT HERE: NPCs -----------------------------------------------------
+// Add one line per NPC: [name, role, place, one line about them].
+// Keep it to what the party actually knows. Leave a field blank ('') if unknown.
+const NPCS=[
+["Midius","White-haired bard","The Golden Stag, Amox","Met the party at the Golden Stag. Knows all their names."],
+["Caedes","God of murder","Amox","Revealed himself at the golden stag."],
+["Lirin","Elf","Amox","An elf in town who can provide a writ of passage to Everlight."],
+["Orrin","","","Gave Silica the ticket that brought her to Amox."],
+["Hush","Operative of the Scarlet Brotherhood","","A codenamed operative of the Scarlet Brotherhood."],
+["Tamsin","Dock tavern keeper","The Mermaid's Tail, Amox","Sells gossip at the dock tavern."]
+];
+function render(){const q=$('q').value.toLowerCase();
+const list=NPCS.filter(n=>!q||n.join(' ').toLowerCase().includes(q));
+$('grid').innerHTML=list.map(n=>`<div class=card><h2>${esc(n[0])}</h2><div class=who>${esc([n[1],n[2]].filter(Boolean).join(' · '))}</div><p>${esc(n[3])}</p></div>`).join('');
+$('none').style.display=list.length?'none':'block'}
+$('q').oninput=render;render();
+</script></body></html>
