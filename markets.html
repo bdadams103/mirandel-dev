@@ -9,7 +9,7 @@ body::before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(2
 header{padding:10px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:5}
 h1{font-size:18px;margin:0;color:var(--ac)}h2{margin:0 0 4px;font-size:16px}
 button,select,input,textarea{font:inherit;background:var(--cd);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:3px 7px;max-width:100%}
-button{cursor:pointer}button.on{background:var(--ac);color:var(--bg)}button.pl{border-width:2px}button.pl.on{color:#fff}button.buy{border-color:var(--ac);color:var(--ac)}
+button{cursor:pointer}button.on{background:var(--ac);color:var(--bg)}
 a.back{font-size:14px;color:var(--fg);background:var(--cd);border:1px solid var(--bd);border-radius:4px;padding:3px 7px;text-decoration:none}a.back:hover{border-color:var(--ac)}
 main{display:flex;flex-wrap:wrap;gap:12px;padding:12px;align-items:flex-start;position:relative;z-index:1}
 #dir{flex:0 1 300px;min-width:240px;max-height:calc(100vh - 90px);overflow-y:auto;position:sticky;top:70px}#pane{flex:1 1 440px;min-width:0}#pane.wide{flex-basis:100%}
@@ -17,10 +17,7 @@ main{display:flex;flex-wrap:wrap;gap:12px;padding:12px;align-items:flex-start;po
 .shop{cursor:pointer}.shop:hover{border-color:var(--ac)}.shop.sel{border-color:var(--ac);box-shadow:inset 3px 0 0 var(--ac)}
 .bar{margin:6px 0;display:flex;flex-wrap:wrap;gap:4px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px}
 table{width:100%;border-collapse:collapse}th,td{padding:3px 6px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}.n{text-align:right;white-space:nowrap}.muted{color:var(--mu)}
-tr.got td:first-child{box-shadow:inset 3px 0 0 var(--ac)}
-.tag{font-size:11px;border:1px solid var(--bd);border-radius:10px;padding:0 6px;color:var(--mu)}.chip{font-size:11px;color:#fff;border-radius:10px;padding:1px 7px;white-space:nowrap}
-#flash{display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ac);color:var(--bg);padding:8px 14px;border-radius:6px;z-index:9}
-#q{width:100%;margin-top:4px}
+.tag{font-size:11px;border:1px solid var(--bd);border-radius:10px;padding:0 6px;color:var(--mu)}#q{width:100%;margin-top:4px}
 #topbar{display:flex;gap:2px;align-items:center;flex-basis:100%;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px;background:var(--panel);border-bottom:1px solid var(--bd);font-size:14px;margin:-10px -14px 2px}
 #topbar a{color:var(--fg);text-decoration:none;padding:4px 10px;border-radius:6px;white-space:nowrap}
 #topbar a:hover{text-decoration:underline}
@@ -28,10 +25,9 @@ tr.got td:first-child{box-shadow:inset 3px 0 0 var(--ac)}
 #topbar .brand{font-weight:700;color:var(--ac);font-size:16px}
 #topbar .brand.on{color:var(--panel)}
 </style></head><body>
-<header><nav id="topbar"><a class="brand" href="index.html">Mirandel</a><a href="world.html">World Map</a><a class="on" href="markets.html">Markets</a><a href="npcs.html">NPCs</a><a href="recaps.html">Recaps</a></nav><h1>Markets</h1><nav><button data-t=s>Shops</button> <button data-t=f>Find an item</button> <button data-t=l>Party ledger</button></nav>
-<span><span class=muted>Shopping as:</span> <span id=who></span></span>
-<details><summary>Save / load</summary><textarea id=io rows=4 cols=36 placeholder="Purchases auto-save in this browser. Export to copy them; paste saved data (or the DM's market export, to sync prices) and press Import."></textarea><br><button id=bx>Export</button> <button id=bi>Import</button></details></header>
-<main id=main></main><div id=flash></div>
+<header><nav id="topbar"><a class="brand" href="index.html">Mirandel</a><a href="world.html">World Map</a><a class="on" href="markets.html">Markets</a><a href="npcs.html">NPCs</a><a href="recaps.html">Recaps</a></nav><h1>Markets</h1><nav id=tabs><button data-t=s>Shops</button> <button data-t=f>Find an item</button></nav>
+<details><summary>Save / load</summary><textarea id=io rows=4 cols=36 placeholder="DM prices auto-save in this browser. Export to copy them; paste saved data and press Import."></textarea><br><button id=bx>Export</button> <button id=bi>Import</button></details></header>
+<main id=main></main>
 <script>
 const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 // ---- EDIT HERE: items --------------------------------------------
@@ -74,7 +70,6 @@ const B=[...mkI('food',[['Ration (10 days)',500],['Bread (10 loaves)',20],['Chee
 //   cu: [["Name", "gear", price in cp, rarity, "Source"]] — a custom item, sold
 //       wherever its name matches a shop's filter, like any other item.
 //   inf: percent — inflation applied to everything.
-// Purchases already made keep the price they were bought at.
 const CITIES=[
 {name:'Amox',maxRarity:4,flags:'pb',shops:[['Torin & Sons Shipwrights','Shipyards','Dwarven yard building hulls and boats',['gear'],'boat|ship',''],
 ['Sprocket & Zook Runepowder Works','Shipyards','Gnome airship engines and lamps',['gear'],'lantern|oil|tinder|torch|lock','wand of pyro|orb of|driftglobe|immovable'],
@@ -106,14 +101,15 @@ const CITIES=[
 ['General Store','Town Square','Everyday goods for the road',['food','gear','potion'],'ration|bread|cheese|meat|ale|wine|meal|waterskin|bedroll|backpack|rope|torch|tinder|mess|blanket|clothes, common|clothes, traveler|lantern|oil|potion of healing|antitoxin',''],
 ['Town Smithy','Town Square','Basic arms and armor',['weapon','armor'],'club|dagger|quarterstaff|spear|handaxe|mace|sling|shortsword|longsword|shield|padded|leather|chain shirt|arrows|bolts',''],
 ['Town Inn','Town Square','A bed and a hot meal',['food','lodging'],'ale|meal|wine|poor|modest|stabl','']]}]; // end of shops, end of the Towns city, end of CITIES
-const PL=[['Darya','#b5523b'],['Sabine','#3b7bb5'],['Valerius','#8a4fb0'],['Silica','#3f8a5c']];
-const K2='amoxPlayerMarket1'; // kept so existing saved purchases still load
+const K2='amoxPlayerMarket1'; // kept so existing saved DM prices still load
 let CITY=CITIES[0]; // the city whose shops and prices are showing
 const DIST=()=>[...new Set(CITY.shops.map(s=>s[1]))]; // districts in this city
-let S={pl:'',city:0,tab:'s',shop:0,dist:'all',cat:'all',q:'',buy:[],dm:{ev:[],brew:{},mk:{},cu:[],inf:0}};
+let S={city:0,tab:'s',shop:0,dist:'all',cat:'all',q:'',dm:{ev:[],brew:{},mk:{},cu:[],inf:0}};
 try{Object.assign(S,JSON.parse(localStorage.getItem(K2)||'{}'))}catch(e){}
 if(!CITIES[S.city])S.city=0;CITY=CITIES[S.city];if(S.shop>=CITY.shops.length)S.shop=0;
-const save=()=>{try{localStorage.setItem(K2,JSON.stringify({pl:S.pl,city:S.city,tab:S.tab,shop:S.shop,dist:S.dist,buy:S.buy,dm:S.dm}))}catch(e){}};
+if(S.tab!='s'&&S.tab!='f')S.tab='s'; // older saves may point at the removed ledger tab
+const save=()=>{try{localStorage.setItem(K2,JSON.stringify({city:S.city,tab:S.tab,shop:S.shop,dist:S.dist,dm:S.dm}))}catch(e){}};
+if(S.buy!==undefined||S.pl!==undefined){delete S.buy;delete S.pl;save();} // drop purchases from older saves
 const ITEMS=()=>B.concat(S.dm.cu||[]),rx=r=>new RegExp(r,'i');
 function loc(t,c){const g=t.flags;let m=1;if(g.includes('f')&&c=='food')m*=.8;if(g.includes('p')&&(c=='food'||c=='gear'))m*=.9;if(g.includes('m')&&(c=='weapon'||c=='armor'))m*=.85;if(g.includes('r'))m*=1.2;if(g.includes('w')&&c=='food')m*=1.5;if(g.includes('e')&&(c=='potion'||c=='magic'))m*=.9;if(g.includes('b')&&c=='lodging')m*=1.25;return m}
 const evf=(t,c)=>(S.dm.ev||[]).reduce((m,e)=>e.on&&e.t.includes(t.name)&&e.c.includes(c)?m*(1+e.p/100):m,1);
@@ -125,48 +121,31 @@ const mg=sh[5]?I.filter(i=>i[1]=='magic'&&rx(sh[5]).test(i[0])).map(i=>({n:i[0],
 const br=((S.dm.brew||{})[sh[0]]||[]).map(b=>({n:b.n,c:'special',p:b.p,note:b.d,brew:1}));
 return gd.concat(mg,br)}
 const ALL=()=>CITY.shops.flatMap((s,si)=>stock(si).map(it=>({...it,si})));
-const col=n=>(PL.find(p=>p[0]==n)||['','#888'])[1];
-const qty=(pl,si,n)=>S.buy.filter(b=>b.pl==pl&&b.s==CITY.shops[si][0]&&(b.c||'Amox')==CITY.name&&b.i==n).reduce((a,b)=>a+b.q,0);
-const who=(si,n)=>PL.map(p=>[p[0],qty(p[0],si,n)]).filter(x=>x[1]);
-const chip=(n,q)=>`<span class=chip style="background:${col(n)}">${esc(n)}${q>1?' ×'+q:''}</span>`;
-function buy(si,n,p,d){if(!S.pl){flash('Pick who is shopping first (top of the page).');return}const sh=CITY.shops[si][0];let r=S.buy.find(b=>b.pl==S.pl&&b.s==sh&&(b.c||'Amox')==CITY.name&&b.i==n);
-if(d>0){if(r)r.q++;else S.buy.push({pl:S.pl,c:CITY.name,s:sh,i:n,q:1,p})}else if(r){r.q--;if(r.q<=0)S.buy.splice(S.buy.indexOf(r),1)}save();render()}
-function flash(m){const f=$('flash');f.textContent=m;f.style.display='block';clearTimeout(flash.t);flash.t=setTimeout(()=>f.style.display='none',2500)}
-function row(it,showShop){const mine=S.pl?qty(S.pl,it.si,it.n):0,w=who(it.si,it.n),a=`data-si=${it.si} data-n="${esc(it.n)}" data-p=${it.p}`;
-return `<tr class="${w.length?'got':''}"><td>${esc(it.n)}${it.mg?` <span class=muted>(${it.src})</span>`:''}${it.brew?' <span class=tag>special</span>':''}${it.note?`<br><span class=muted>${esc(it.note)}</span>`:''}${showShop?`<br><a href=# data-a=open data-v=${it.si} class=muted>${esc(CITY.shops[it.si][0])}, ${esc(CITY.shops[it.si][1])}</a>`:''}
-<td class=n><b>${it.p}</b> gp<td>${w.map(x=>chip(x[0],x[1])).join(' ')}<td class=n style="white-space:nowrap">${mine?`<button data-a=minus ${a} title="Undo one">−</button> `:''}<button data-a=plus ${a} class=buy>${mine?'+1':'Buy'}</button></tr>`}
-const table=(rows,shop)=>rows.length?`<table><tr><th>Item<th class=n>Price<th>Bought by<th></tr>${rows.map(r=>row(r,shop)).join('')}</table>`:'<p class=muted>Nothing matches.</p>';
+function row(it,showShop){
+return `<tr><td>${esc(it.n)}${it.mg?` <span class=muted>(${it.src})</span>`:''}${it.brew?' <span class=tag>special</span>':''}${it.note?`<br><span class=muted>${esc(it.note)}</span>`:''}${showShop?`<br><a href=# data-a=open data-v=${it.si} class=muted>${esc(CITY.shops[it.si][0])}, ${esc(CITY.shops[it.si][1])}</a>`:''}
+<td class=n><b>${it.p}</b> gp</tr>`}
+const table=(rows,shop)=>rows.length?`<table><tr><th>Item<th class=n>Price</tr>${rows.map(r=>row(r,shop)).join('')}</table>`:'<p class=muted>Nothing matches.</p>';
 const catBar=(cats)=>`<div class=bar>${['all',...cats].map(c=>`<button data-a=cat data-v=${c} class="${S.cat==c?'on':''}">${c}</button>`).join(' ')}</div>`;
 function rShops(){const list=CITY.shops.map((s,i)=>[s,i]).filter(x=>S.dist=='all'||x[0][1]==S.dist);
 const sh=CITY.shops[S.shop],st=stock(S.shop),cats=[...new Set(st.map(i=>i.c))],q=S.q.toLowerCase(),rows=st.filter(i=>(S.cat=='all'||i.c==S.cat)&&(!q||i.n.toLowerCase().includes(q))).map(i=>({...i,si:S.shop}));
-const n=S.buy.filter(b=>b.s==sh[0]&&(b.c||'Amox')==CITY.name).reduce((a,b)=>a+b.q,0);
 $('main').innerHTML=`<section id=dir><div class=card><b>City</b><div class=bar>${CITIES.map((c,i)=>`<button data-a=city data-v=${i} class="${S.city==i?'on':''}">${esc(c.name)}</button>`).join(' ')}</div></div>
 <div class=card><b>District</b><div class=bar>${['all',...DIST()].map(d=>`<button data-a=dist data-v="${esc(d)}" class="${S.dist==d?'on':''}">${d=='all'?'All':esc(d)}</button>`).join(' ')}</div></div>
 ${list.map(([s,i])=>`<div class="card shop ${i==S.shop?'sel':''}" data-a=open data-v=${i}><b>${esc(s[0])}</b><br><span class=muted>${esc(s[1])}. ${esc(s[2])}</span><br>${s[3].map(c=>`<span class=tag>${c}</span>`).join(' ')}${s[5]?' <span class=tag>magic</span>':''}</div>`).join('')}</section>
-<section id=pane><div class=card><h2>${esc(sh[0])}</h2><span class=muted>${esc(sh[1])}, ${esc(CITY.name)}. ${esc(sh[2])}</span>${n?`<br><span class=muted>Party has bought ${n} item${n>1?'s':''} here.</span>`:''}
+<section id=pane><div class=card><h2>${esc(sh[0])}</h2><span class=muted>${esc(sh[1])}, ${esc(CITY.name)}. ${esc(sh[2])}</span>
 ${catBar(cats)}<input id=q placeholder="Search this shop" value="${esc(S.q)}"></div><div class=card id=tb>${table(rows,0)}</div></section>`}
 function rFind(){const q=S.q.toLowerCase(),all=ALL(),cats=[...new Set(all.map(i=>i.c))];let r=all.filter(i=>(S.cat=='all'||i.c==S.cat)&&(!q||i.n.toLowerCase().includes(q))).sort((a,b)=>a.n.localeCompare(b.n)||a.p-b.p);
 const lim=200,more=r.length>lim;r=r.slice(0,lim);
 $('main').innerHTML=`<section id=pane class=wide><div class=card><h2>Find an item</h2><span class=muted>Searches every shop in ${CITY.name}. Same item at several shops? Compare prices here.</span>${catBar(cats)}<input id=q placeholder="e.g. rope, healing, longsword" value="${esc(S.q)}" autofocus></div><div class=card id=tb>${table(r,1)}${more?'<p class=muted>Showing first 200. Narrow your search.</p>':''}</div></section>`}
-function rLedger(){const tot=a=>a.reduce((s,b)=>s+b.p*b.q,0);
-$('main').innerHTML=`<section id=pane class=wide><div class=card><h2>Party ledger</h2><span class=muted>Prices are locked in at the moment of purchase. Party total: <b>${tot(S.buy)} gp</b></span></div><div class=grid>
-${PL.map(([p,c])=>{const L=S.buy.filter(b=>b.pl==p);return `<div class=card style="border-top:4px solid ${c}"><h2>${p}</h2>${L.length?`<table><tr><th>Item<th class=n>Qty<th class=n>Total<th></tr>${L.map(b=>`<tr><td>${esc(b.i)}<br><span class=muted>${esc(b.s)}, ${esc(b.c||'Amox')}, ${b.p} gp each</span><td class=n>${b.q}<td class=n><b>${b.p*b.q}</b><td><button data-a=del data-v=${S.buy.indexOf(b)} title=Remove>x</button></tr>`).join('')}<tr><td><b>Spent</b><td><td class=n><b>${tot(L)} gp</b><td></tr></table><button data-a=clr data-v=${p}>Clear ${p}'s list</button>`:'<p class=muted>Nothing bought yet.</p>'}</div>`}).join('')}</div></section>`}
-function render(){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t==S.tab));
-$('who').innerHTML=PL.map(([p,c])=>`<button data-p="${p}" class="pl ${S.pl==p?'on':''}" style="${S.pl==p?`background:${c};border-color:${c}`:`border-color:${c}`}">${p}</button>`).join(' ');
-const y=scrollY,f=document.activeElement&&document.activeElement.id=='q',pos=f?$('q').selectionStart:0;({s:rShops,f:rFind,l:rLedger})[S.tab]();scrollTo(0,y);if(f&&$('q')){$('q').focus();$('q').setSelectionRange(pos,pos)}}
+function render(){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t==S.tab));
+const y=scrollY,f=document.activeElement&&document.activeElement.id=='q',pos=f?$('q').selectionStart:0;({s:rShops,f:rFind})[S.tab]();scrollTo(0,y);if(f&&$('q')){$('q').focus();$('q').setSelectionRange(pos,pos)}}
 function fillTb(){if(S.tab=='s'){const st=stock(S.shop),q=S.q.toLowerCase();$('tb').innerHTML=table(st.filter(i=>(S.cat=='all'||i.c==S.cat)&&(!q||i.n.toLowerCase().includes(q))).map(i=>({...i,si:S.shop})),0)}else render()}
 $('main').onclick=e=>{const d=e.target.closest('[data-a]');if(!d)return;const a=d.dataset.a,v=d.dataset.v;if(d.tagName=='A')e.preventDefault();
-if(a=='open'){S.shop=+v;S.tab='s';S.cat='all';S.q='';save();render();scrollTo(0,0)}else if(a=='city'){S.city=+v;CITY=CITIES[S.city];S.shop=0;S.dist='all';S.cat='all';S.q='';save();render();scrollTo(0,0)}else if(a=='dist'){S.dist=v;save();render()}else if(a=='cat'){S.cat=v;render()}
-else if(a=='plus'||a=='minus')buy(+d.dataset.si,d.dataset.n,+d.dataset.p,a=='plus'?1:-1);
-else if(a=='del'){S.buy.splice(+v,1);save();render()}
-else if(a=='clr'){if(d.dataset.c){S.buy=S.buy.filter(b=>b.pl!=v);save();render()}else{d.dataset.c=1;d.textContent='Click again to clear';setTimeout(()=>{if(d.isConnected){delete d.dataset.c;d.textContent=`Clear ${v}'s list`}},3000)}}};
+if(a=='open'){S.shop=+v;S.tab='s';S.cat='all';S.q='';save();render();scrollTo(0,0)}else if(a=='city'){S.city=+v;CITY=CITIES[S.city];S.shop=0;S.dist='all';S.cat='all';S.q='';save();render();scrollTo(0,0)}else if(a=='dist'){S.dist=v;save();render()}else if(a=='cat'){S.cat=v;render()}};
 $('main').oninput=e=>{if(e.target.id=='q'){S.q=e.target.value;S.tab=='s'?fillTb():render()}};
-$('who').onclick=e=>{const p=e.target.dataset.p;if(p){S.pl=S.pl==p?'':p;save();render()}};
-document.querySelector('nav').onclick=e=>{const t=e.target.dataset.t;if(t){S.tab=t;S.cat='all';S.q='';save();render()}};
-$('bx').onclick=()=>{$('io').value=JSON.stringify({buy:S.buy,dm:S.dm})};
-$('bi').onclick=()=>{try{const d=JSON.parse($('io').value);let m=[];
-if(d.buy){S.buy=d.buy;m.push('purchases')}
-if(d.dm)S.dm=d.dm,m.push('prices');else if(d.ev||d.mk||d.brew||d.inf!=null||d.cu){S.dm={ev:d.ev||[],brew:d.brew||{},mk:d.mk||{},cu:d.cu||[],inf:d.inf||0};m.push('DM prices')}
-if(!m.length)throw 0;save();render();$('io').value='Loaded '+m.join(' and ')+'.'}catch(e){$('io').value='Invalid data'}};
+$('tabs').onclick=e=>{const t=e.target.dataset.t;if(t){S.tab=t;S.cat='all';S.q='';save();render()}};
+$('bx').onclick=()=>{$('io').value=JSON.stringify({dm:S.dm})};
+$('bi').onclick=()=>{try{const d=JSON.parse($('io').value);
+if(d.dm)S.dm=d.dm;else if(d.ev||d.mk||d.brew||d.inf!=null||d.cu){S.dm={ev:d.ev||[],brew:d.brew||{},mk:d.mk||{},cu:d.cu||[],inf:d.inf||0}}else throw 0;
+save();render();$('io').value='Loaded DM prices.'}catch(e){$('io').value='Invalid data'}};
 render();
 </script></body></html>

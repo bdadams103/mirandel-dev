@@ -6,7 +6,7 @@
 | `world.html` | World map. Click rings for lore; click the outlined area to open the regional map. |
 | `regional.html` | Amox / Ferry Falls / Everwoods regional map. |
 | `amox.html` | City of Amox map. |
-| `markets.html` | Markets: shops by city, price finder, party ledger. |
+| `markets.html` | Markets: shops by city and a price finder. |
 | `npcs.html` | NPC database. |
 | `recaps.html` | Session recaps, newest first. |
 | `about-dm.html` | About the DM. Linked only from the hub footer, not the top bar. |
@@ -17,7 +17,7 @@ Each map page has a settings block at the top of its `<script>`: `MAP_WIDTH_MILE
 
 The home hub (`index.html`) has no script: edit the sections marked `<!-- EDIT ... -->` right in the HTML, after each session.
 
-Markets (`markets.html`) has its editable lists at the top of its `<script>`: items (prices in copper, 100 cp = 1 gp), then cities and their shops. To add a city, copy the Amox block (or the smaller Towns block for a generic city) and fill in its shops; each city has its own price modifier. The party ledger is shared across cities, and purchases are tagged with the city they came from. DM price changes (shop markups, events, custom items and specials, inflation) have no panel in the page: use the Save / load box at the top, Export, edit the JSON, Import — the format is documented in a comment above `CITIES` in the file.
+Markets (`markets.html`) has its editable lists at the top of its `<script>`: items (prices in copper, 100 cp = 1 gp), then cities and their shops. To add a city, copy the Amox block (or the smaller Towns block for a generic city) and fill in its shops; each city has its own price modifier. DM price changes (shop markups, events, custom items and specials, inflation) have no panel in the page: use the Save / load box at the top, Export, edit the JSON, Import — the format is documented in a comment above `CITIES` in the file.
 
 NPCs (`npcs.html`) and recaps (`recaps.html`) each have one editable list at the top of their `<script>`: `NPCS` and `SESSIONS`. Add new sessions anywhere in `SESSIONS`; the page sorts newest first by date, so write dates like "Oct 22, 2026". A session without a date still works and shows at the bottom.
 
